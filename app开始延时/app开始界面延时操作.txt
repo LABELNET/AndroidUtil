@@ -1,0 +1,9 @@
+ new Handler().postDelayed(new Runnable() {  
+			  
+	            @Override  
+	            public void run() {  
+	                Intent intent = new Intent(MainActivity.this, Hi.class);  
+	                startActivity(intent);  
+	                MainActivity.this.finish();  
+	            }  
+	        }, 2000);  

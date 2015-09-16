@@ -1,0 +1,55 @@
+1.类解释
+  GsonRequset.java   : 自定义Gson请求，直接将 Json字符串  实例化为 对象
+  
+  VolleyApplication.java : 继承Application , 单例模式 创建 RequestQueue 
+  
+  VolleyBitmapCache.java : 与LruCachae 结合 ，实现图片缓存，使得不发生 内存溢出
+  
+  VolleyHandler.java  : 实现Response.Lintener 和 Response.ErrorLinstener 的监听 ，并返回 
+                     onSuccess 和 onFail 两个回调函数 
+                     
+  VolleyHttpPath.java  ：封装 请求地址，可以在这里面封装请求地址，统一管理 请求地址
+  
+  VolleyHttpRequest.java : 封装所有的请求调用 
+  
+ 2. 使用方法
+  
+  2.1 注册 VolleyApplication
+                         在AndroidManifest.xml里 的Application标签下的第一行 ：新添（name中为 VolleyApplication 的包名称）
+                         android:name="com.example.volley.VolleyApplication"
+
+  2.2 基本数据请求(String,JsonObject,Gson,Bitmap 等)
+                  实例化 VolleyHandler类 ，例如：
+                              这里请求的是 String 故 T 传参为 String , 图片使用ImageRequest的话传参：Bitmap
+         VolleyHandler<String> volleyRequest=new VolleyHandler<String>() {
+			
+			@Override
+			public void reqSuccess(String response) {
+				// 成功的回调 : 可以操作返回的数据
+			
+			}
+			
+			@Override
+			public void reqError(String error) {
+				// 失败的回调 ：失败的提醒
+				
+			}
+		};
+		后通过 VolleyHttpRequest 调用需要请求对应的数据类型 ： 
+		
+		VolleyHttpRequest.String_request(url, volleyRequest);
+         
+   2.3 图片请求 ：ImageLoader
+                     使用ImageLoader 的 话 ，需要使用 ImageListener 和  不需要使用 VolleyHandler 回调；
+            
+      //第一个参数是 ImageView ,第二个 参数是 默认图片 , 第三个 参数 是 加载失败的 图片          
+      ImageListener imageListener=ImageLoader.getImageListener(ImageView, defaultImageResId, errorImageResId)
+		
+	      比如：设置监听 ：
+       ImageListener imageListener = ImageLoader.getImageListener(imageView,
+					R.drawable.ic_launcher, R.drawable.ic_launcher);	
+	                网络请求 ：
+         VolleyHttpRequest.Image_Loader(url, imageListener); 
+                   
+                   
+                   
